@@ -1,0 +1,89 @@
+{# app/Resources/views/layout.html.twig #}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>{% block title %}OC Plateforme{% endblock %}</title>
+
+  {% block stylesheets %}
+
+
+      <style>
+          .parallax {
+              /* The image used */
+              background-image: url("{{ asset('assets/images/riad.jpg') }}");
+              opacity: 0.8;
+
+              /* Set a specific height */
+              height: 600px;
+
+              /* Create the parallax scrolling effect */
+              background-attachment: fixed;
+              background-position: center;
+              background-repeat: no-repeat;
+              background-size: cover;
+
+          }
+      </style>
+
+
+      <!-- Bootstrap core CSS -->
+      <link href="{{ asset('assets/css/bootstrap-3.3.7-dist/css/bootstrap.min.css') }}" rel="stylesheet">
+
+      <!-- Custom styles for this template -->
+      <link href="{{ asset('assets/css/shop-homepage.css') }}" rel="stylesheet">
+
+
+
+      <!--login-style-->
+      <link href="{{ asset('assets/css/login-style.css') }}" rel="stylesheet">
+
+      <!--annonces-style-->
+      <link href="{{ asset('assets/css/annonces-style.css') }}" rel="stylesheet">
+
+      <!-- slide-style-->
+      <link href="{{ asset('assets/css/slide-style.css') }}" rel="stylesheet">
+
+      <!-- contact-style-->
+      <link href="{{ asset('assets/css/contact-style.css') }}" rel="stylesheet">
+
+      <!-- iconSocial-style-->
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+      <!--login-style-->
+      <link href="{{ asset('assets/css/body-style2.css') }}" rel="stylesheet">
+
+
+  {% endblock %}
+</head>
+
+<body>
+
+{% block menu %}
+{% endblock %}
+
+
+{% block body %}
+{% endblock %}
+
+
+
+
+  {% block javascripts %}
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="{{ asset('assets/jquery/jquery.min.js') }}"></script>
+      <script src="{{ asset('assets/popper/popper.min.js') }}"></script>
+      <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="{{ asset('assets/js/login.js') }}"></script>
+      <script src="{{ asset('assets/js/annonces.js') }}"></script>
+      <script src="{{ asset('assets/js/slide.js') }}"></script>
+  {% endblock %}
+
+</body>
+</html>

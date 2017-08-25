@@ -1,0 +1,8 @@
+cc_platform:
+    resource: "@CCPlatformBundle/Resources/config/routing.yml"
+    prefix:   /
+
+oc_platform:
+    resource: "@OCPlatformBundle/Resources/config/routing.yml"
+    prefix:   /platform
+
