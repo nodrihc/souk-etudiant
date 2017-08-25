@@ -1,0 +1,3 @@
+cc_platform_homepage:
+    path:     /
+    defaults: { _controller: CCPlatformBundle:Default:index }

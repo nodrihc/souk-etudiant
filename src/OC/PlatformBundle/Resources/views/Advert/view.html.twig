@@ -1,0 +1,115 @@
+{# src/OC/PlatformBundle/Resources/view/Advert/view.html.twig #}
+
+{% extends "OCPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+  Lecture d'une annonce - {{ parent() }}
+{% endblock %}
+
+{% block sous_menu %}
+
+
+  <li class=""><a href="{{ path('oc_platform_home') }}" style="color: #ff8b09"><h5><strong>HOME</strong></h5><span class="sr-only">(current)</span></a></li>
+  <li><a href="{{ path('oc_platform_annonces') }}" style="color: #ff8b09"><h5><strong>ANNONCES</strong></h5></a></li>
+  <li><a href="#" data-toggle="modal" data-target="#id-popup" style="color: #ff8b09"><h5><strong>CONNEXION</strong></h5></a></li>
+
+{% endblock %}
+
+{% block ocplatform_body %}
+
+  <h2>{{ advert.titre }}</h2>
+  <i>Par {{ advert.auteur }}, le {{ advert.date|date('d/m/Y') }}</i>
+
+<!-- Slider_annonces -->
+<!--{% for image in listeImages %}
+    <img src="{{ asset(image.url) }}" alt="{{ image.alt }}">
+    {% endfor %}-->
+
+  <div class="container">
+    <div id="main_area">
+      <!-- Slider -->
+      <div class="row">
+        <div class="col-xs-12" id="slider">
+          <!-- Top part of the slider -->
+          <div class="row">
+            <div class="col-sm-8" id="carousel-bounding-box">
+              <div class="carousel slide" id="myCarousel">
+                <!-- Carousel items -->
+
+                <div class="carousel-inner">
+
+
+                  {% for image in listeImages %}
+
+                  <div class="item" data-slide-number="{{ loop.index0 }}">
+                    <img src="{{ asset(image.url) }}" alt="{{ image.alt }}"></div>
+
+                  {% endfor %}
+
+
+                </div>
+
+                <!-- Carousel nav -->
+                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                  <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                  <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+              </div>
+            </div>
+
+            <div class="col-sm-4" id="carousel-text"></div>
+
+            <div id="slide-content" style="display: none;">
+
+    {% for image in listeImages %}
+
+              <div id="slide-content-{{ loop.index0 }}">
+                <h2>{{ advert.titre }}</h2>
+                <p>{{ advert.phraseType }}</p>
+                <p class="sub-text">{{ advert.date|date('d/m/Y') }}<br><a href="#"><h5>Afficher Numero</h5></a></p>
+              </div>
+        {% endfor %}
+
+
+            </div>
+          </div>
+        </div>
+      </div><!--/Slider-->
+
+      <div class="row hidden-xs" id="slider-thumbs">
+        <!-- Bottom switcher of slider -->
+        <ul class="hide-bullets">
+
+    {% for image in listeImages %}
+          <li class="col-sm-2">
+            <a class="thumbnail" id="carousel-selector-0"><img src="{{ asset(image.url) }}" alt="{{ image.alt }}"></a>
+          </li>
+      {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="well">
+    {{ advert.description }}
+  </div>
+
+  <p>
+    <a href="{{ path('oc_platform_home') }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      Retour à la liste
+    </a>
+    <a href="{{ path('oc_platform_edit', {'id': advert.id}) }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-edit"></i>
+      Modifier l'annonce
+    </a>
+    <a href="{{ path('oc_platform_delete', {'id': advert.id}) }}" class="btn btn-danger">
+      <i class="glyphicon glyphicon-trash"></i>
+      Supprimer l'annonce
+    </a>
+  </p>
+
+{% endblock %}
