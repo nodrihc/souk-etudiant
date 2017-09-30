@@ -2,6 +2,45 @@
 
 {% extends "OCPlatformBundle::layout.html.twig" %}
 
+{% block sous_menu %}
+
+
+  <ul class="nav navbar-nav">
+    <li class="">
+      <a href="{{ path("oc_platform_home") }}">
+        Acceuil
+      </a>
+    </li>
+    <li class="dropdown">
+      <a tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">
+        Catégories<span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a href="{{ path("oc_platform_annonces_appartements") }}">Appartement</a></li>
+        <li><a href="{{ path("oc_platform_annonces_chambres") }}">Chambres</a></li>
+        <li><a href="{{ path("oc_platform_annonces_colocation") }}">Colocation</a></li>
+      </ul>
+    </li>
+    <li class="">
+      <a href="{{ path("oc_platform_contact") }}">
+        Contactez-nous
+      </a>
+    </li>
+    <li class="">
+      <a href="{{ path("oc_platform_about") }}">
+        A propos
+      </a>
+    </li>
+    <li class="">
+      <a href="{{ path("oc_platform_blog") }}">
+        Blog
+      </a>
+    </li>
+
+  </ul>
+
+{% endblock %}
+
 {% block body %}
 
   <h2>Ajouter une annonce</h2>

@@ -7,122 +7,102 @@
 {% endblock %}
 
 
- {% block menu %}
+{% block entete %}
 
-     <!-- Navigation -->
-     <nav class="navbar navbar-inverse navbar-fixed-top">
-         <div class="container-fluid">
-             <div class="navbar-header">
-                 <ul class="nav navbar-nav navbar-left">
-                     <li>
-                         <a class="navbar-brand" href="{{ path('oc_platform_home') }}">
-                             <img src="{{ asset('assets/images/d.png') }}" style="margin-top: -20px; margin-left: 20px" alt="Los Angeles">
-                         </a>
-                     </li>
-                 </ul>
-             </div>
-             <div id="navbar" class="navbar-collapse collapse">
-                 <ul class="nav navbar-nav navbar-left" style="margin-right: 100px;padding: 5px">
-
-
-                        {% block sous_menu %}
-
-                        {% endblock %}
-
-                 </ul>
-
-                 <ul class="nav navbar-nav navbar-right">
-                     <li>
-                         <h2><a href="{{ path('oc_platform_home') }}" style="margin-right: 40px"><button type="button" class="btn btn-success">Déposer une annonce Gratuite </button> <span class="sr-only">(current)</span></a></h2>
-                     </li>
-
-                 </ul>
-
-
-             </div><!--/.nav-collapse -->
-         </div>
-     </nav>
-
- {% endblock %}
-
-{% block body %}
-
-{% block slide %}
-{% endblock %}
-
-    {% block recherche %}
-    {% endblock %}
-
-
-    <!-- Pop-up de connection-->
-
-    <div class="modal fade" id="id-popup" tabindex="-1" role="dialog" aria-labelledby="titrePopUp" aria-hidden="true">
-        <div class="modal-dialog" >
-            <div class="modal-content" style="width: 500px;">
-
-                <div class="login-wrap">
-                    <div class="login-html">
-                        <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
-                        <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
-                        <div class="login-form">
-                            <form>
-                                <div class="sign-in-htm">
-                                    <div class="group">
-                                        <label for="user" class="label">Username</label>
-                                        <input id="user" type="text" class="input" required>
-                                    </div>
-                                    <div class="group">
-                                        <label for="pass" class="label">Password</label>
-                                        <input id="pass" type="password" class="input" data-type="password" required>
-                                    </div>
-                                    <div class="group">
-                                        <input id="check" type="checkbox" class="check" checked>
-                                        <label for="check"><span class="icon"></span> Keep me Signed in</label>
-                                    </div>
-                                    <div class="group">
-                                        <input type="submit" class="button" value="Sign In">
-                                    </div>
-                                    <div class="hr"></div>
-                                    <div class="foot-lnk">
-                                        <a href="#forgot">Forgot Password?</a>
-                                    </div>
-                                </div>
-                            </form>
-                            <form>
-                                <div class="sign-up-htm">
-                                    <div class="group">
-                                        <label for="user" class="label">Username</label>
-                                        <input id="user" type="text" class="input" required>
-                                    </div>
-                                    <div class="group">
-                                        <label for="pass" class="label">Password</label>
-                                        <input id="pass" type="password" class="input" data-type="password" required>
-                                    </div>
-                                    <div class="group">
-                                        <label for="pass" class="label">Repeat Password</label>
-                                        <input id="pass" type="password" class="input" data-type="password" required>
-                                    </div>
-                                    <div class="group">
-                                        <label for="pass" class="label">Email Address</label>
-                                        <input id="pass" type="text" class="input" required>
-                                    </div>
-                                    <div class="group">
-                                        <input type="submit" class="button" value="Sign Up">
-                                    </div>
-                                    <div class="hr"></div>
-                                    <div class="foot-lnk">
-                                        <label for="tab-1">Already Member?</a>
-                                    </div>
-                                </div>
-                            </form>
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <!-- Top header start -->
+        <header class="top-header hidden-xs" id="top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="list-inline">
+                            <a href="tel:1-800-666-8888"><i class="fa fa-phone"></i>+212-698361196</a>
+                            <a href="tel:info@themevessel.com"><i class="fa fa-envelope"></i>nodrihc93@gmail.com</a>
                         </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <ul class="top-social-media pull-right">
+                            <li>
+                                <i class="fa fa-user"></i> Bonjour {{ app.user.username }}
+                            </li>
+                            <li>
+                                <a href="{{ path('fos_user_security_logout') }}" class="sign-in"> Déconnexion</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </header>
+        <!-- Top header end -->
+    {% else %}
+        <!-- Top header start -->
+        <header class="top-header hidden-xs" id="top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="list-inline">
+                            <a href="tel:1-800-666-8888"><i class="fa fa-phone"></i>+212-698361196</a>
+                            <a href="tel:info@themevessel.com"><i class="fa fa-envelope"></i>nodrihc93@gmail.com</a>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <ul class="top-social-media pull-right">
+                            <li>
+                                <a href="{{ path('fos_user_security_login') }}" class="sign-in"><i class="fa fa-sign-in"></i> Se connecter</a>
+                            </li>
+                            <li>
+                                <a href="{{ path("fos_user_registration_register") }}" class="sign-in"><i class="fa fa-user"></i> S'inscrire</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Top header end -->
+    {% endif %}
 
-    <br>
+{% endblock %}
+
+{% block menu %}
+    <!-- Main header start -->
+    <header class="main-header">
+        <div class="container">
+            <nav class="navbar navbar-default">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navigation" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="{{ path('oc_platform_home')}}" style="margin-right: 50px">
+                        <img src="{{ asset('assets/old/images/1118987-1928.png') }}" alt="logo">
+                    </a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="navbar-collapse collapse" role="navigation" aria-expanded="true" id="app-navigation">
+
+                    {% block sous_menu %}
+                    {% endblock %}
+
+                    <ul class="nav navbar-nav navbar-right rightside-navbar">
+                        <li>
+                            <a href="{{ path('oc_platform_add')}}" class="button">
+                                Déposer une annonce
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- /.navbar-collapse -->
+                <!-- /.container -->
+            </nav>
+        </div>
+    </header>
+    <!-- Main header end -->
+{% endblock %}
+
+{% block body %}
 
 
   {# On définit un nouveau bloc, que les vues du bundle pourront remplir #}
@@ -130,6 +110,186 @@
 
   {% endblock %}
 
+    <!-- Partners block start -->
+    <div class="partners-block">
+        <div class="container">
+            <h3>Nos Partenaires</h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="carousel our-partners slide" id="ourPartners">
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                    <a href="http://mit.co.ma/fr/" target="_blank">
+                                        <img src="{{ asset('assets/old/images/image (2).png') }}" alt="audiojungle">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                    <a href="http://www.ensa.ac.ma/" target="_blank">
+                                        <img src="{{ asset('assets/old/images/image (3).jpg') }}" alt="themeforest">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                    <a href="https://www.radeema.ma/" target="_blank">
+                                        <img src="{{ asset('assets/old/images/image (1).jpg') }}" alt="tuts">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                    <a href="http://www.iam.ma/index.aspx" target="_blank">
+                                        <img src="{{ asset('assets/old/images/image (2).jpg') }}" alt="graphicriver">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                    <a href="https://www.inwi.ma/" target="_blank"  >
+                                        <img src="{{ asset('assets/old/images/image (1).png') }}" alt="codecanyon">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="left carousel-control" href="#ourPartners" data-slide="prev"><i class="fa fa-chevron-left icon-prev"></i></a>
+                        <a class="right carousel-control" href="#ourPartners" data-slide="next"><i class="fa fa-chevron-right icon-next"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Partners block end -->
+
+    <!-- Footer start -->
+    <footer class="main-footer clearfix">
+        <div class="container">
+            <!-- Footer top -->
+            <div class="footer-top">
+                <div class="row">
+                    <div class="col-lg-5 col-md-4 col-sm-3 col-xs-12">
+                        <div class="logo-2">
+                            <a href="{{ path("oc_platform_home") }}">
+                                <img src="{{ asset('assets/old/images/1118987-1928.png') }}" alt="footer-logo">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4  col-md-4 col-sm-5 col-xs-12">
+                        <form action="#" method="GET">
+                            <input type="text" class="form-contact" name="email" placeholder="Enter your email">
+                            <button type="submit" name="submitNewsletter" class="btn btn-default button-small">
+                                <i class="fa fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <ul class="social-list clearfix">
+                            <li><a href="#"><i class="fa fa-rss"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer info-->
+            <div class="footer-info">
+                <div class="row">
+                    <!-- About us -->
+                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                        <div class="footer-item">
+                            <div class="main-title-2">
+                                <h1>Contact Us</h1>
+                            </div>
+                            <p>
+                                Logement-Etudiant benificie d'un service clientèle à la point de la technologie.
+                            </p>
+                            <ul class="personal-info">
+                                <li>
+                                    <i class="fa fa-map-marker"></i>
+                                    Address: 20/F Green Road, Dhanmondi, Dhaka
+                                </li>
+                                <li>
+                                    <i class="fa fa-envelope"></i>
+                                    Email:<a href="mailto:sales@hotelempire.com">sales@themevessel.com</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-phone"></i>
+                                    Phone: <a href="tel:+55-417-634-7071">+55 417-634-7071</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-fax"></i>
+                                    Fax: +55 417-634-7071
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Links -->
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="footer-item">
+                            <div class="main-title-2">
+                                <h1>Links</h1>
+                            </div>
+                            <ul class="links">
+                                <li>
+                                    <a href="{{ path("oc_platform_home") }}">Acceuil</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path("oc_platform_annonces_appartements") }}">Appartement</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path("oc_platform_annonces_chambres") }}">Chambres</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path("oc_platform_annonces_colocation") }}">Colocation</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path("oc_platform_blog") }}">Blog</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path("oc_platform_about") }}">A propos</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path("oc_platform_contact") }}">Contact</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Tags -->
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="footer-item tags-box">
+                            <div class="main-title-2">
+                                <h1>Tags</h1>
+                            </div>
+                            <ul class="tags">
+                                <li><a href="#">Image</a></li>
+                                <li><a href="#">Features</a></li>
+                                <li><a href="#">Typography</a></li>
+                                <li><a href="#">Gallery</a></li>
+                                <li><a href="#">Slideshow</a></li>
+                                <li><a href="#">Post Formats</a></li>
+                                <li><a href="#">Sellers</a></li>
+                                <li><a href="#">WooCommerce</a></li>
+                                <li><a href="#">Shortcodes</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer end -->
 
 
+    <!-- Copy right start -->
+    <div class="copy-right">
+        <div class="container">
+            &copy;  2017 Logement-Etudiant. Site d'annonce Immobilières pou Etudiants.
+        </div>
+    </div>
+    <!-- Copy end right-->
 {% endblock %}

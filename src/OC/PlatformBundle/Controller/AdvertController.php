@@ -3,38 +3,59 @@
 // src/OC/PlatformBundle/Controller/AdvertController.php
 
 namespace OC\PlatformBundle\Controller;
-
-use OC\PlatformBundle\Entity\Annonce;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use OC\PlatformBundle\Entity\Document;
+use OC\PlatformBundle\Entity\Images;
+use OC\PlatformBundle\Entity\Myfile;
+use OC\PlatformBundle\Entity\User;
+use OC\PlatformBundle\Form\MyfileType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use OC\PlatformBundle\Entity\Image;
-
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type;
+use OC\PlatformBundle\Entity\Annonce;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class AdvertController extends Controller
 {
-  public function indexAction()
+    /**
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function indexAction()
   {
       // On récupère le repository
       $em = $this->getDoctrine()
           ->getManager();
 
 
-      // On récupère l'entité correspondante à l'id $id
+      // On récupère les annonces les plus récentes
+
       $listAdverts = $em->getRepository('OCPlatformBundle:Annonce')->findBy(
-          array(), // Critere
+          array('publier' => 1), // Critere
           array('date' => 'desc'),        // Tri
-          3,                              // Limite
+          6,                              // Limite
           0                               // Offset
       );
       $image[] = null ;
-      $i=0;
       foreach ($listAdverts as $advert)
       {
-          $image = $em->getRepository('OCPlatformBundle:Image')->findOneBy(
-              array('advert' => $advert)
+          $image = $em->getRepository('OCPlatformBundle:Images')->findOneBy(
+              array('annonce' => $advert)
           );
 
-          $advert->setUrlImage($image->getUrl());
+          $advert->setImagePrincipale($image->getPath());
       }
 
 
@@ -59,7 +80,7 @@ class AdvertController extends Controller
           throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
       }
 
-      $listeImage = $em->getRepository('OCPlatformBundle:Image')->findBy(array('advert'=>$advert));
+      $listeImage = $em->getRepository('OCPlatformBundle:Images')->findBy(array('annonce'=>$advert));
       // Le render ne change pas, on passait avant un tableau, maintenant un objet
       return $this->render('OCPlatformBundle:Advert:view.html.twig', array(
           'advert' => $advert,
@@ -69,68 +90,156 @@ class AdvertController extends Controller
 
   public function addAction(Request $request)
   {
-      // Création de l'entité
+      // On crée un objet Advert
       $advert = new Annonce();
-      $advert->setTitre('Appartement 2 chambres meublé moderne à Palmeraie');
-      $advert->setAuteur('Mohamed');
-      $advert->setPhraseType("Cet appartement offre une vue magnifique sur la plage!");
-      $advert->setDescription("L'agence Belimar Immo met en location longue durée uniquement un bel appartement Sur le circuits de la palmeraie dans une résidence sécurisée avec piscine commerce à proximité. Composé de :
 
-2 chambres
-1 sdb
-1 toilette invite
-balcon
-Cuisine entièrement équipée");
-      $advert->setPrix(3500);
-      // On peut ne pas définir ni la date ni la publication,
-      // car ces attributs sont définis automatiquement dans le constructeur
+      // J'ai raccourci cette partie, car c'est plus rapide à écrire !
+      $form = $this->get('form.factory')->createBuilder(FormType::class, $advert)
+          ->add('type', ChoiceType::class, array(
+              'choices' => array(
+                  'Appartement' => 'Appartement',
+                  'Chambre' => 'Chambre',
+                  'Colocation' => 'Colocation',
+              ),
+          ))
+          ->add('status', ChoiceType::class, array(
+              'choices' => array(
+                  'A Louer' => 'A Louer',
+                  'A vendre' => 'A vendre',
 
-      //image 1:
-      $image = new Image();
-      $image->setUrl('assets/images/App1/appartement-2.jpg');
-      $image->setAdvert($advert);
+              ),
+          ))
+          ->add('quelEtage', ChoiceType::class, array(
+              'choices' => array(
+                  '1' => 1,
+                  '2' => 2,
+                  '3' => 3,
+                  '4' => 4,
+                  '5' => 5,
 
+              ),
+          ))
+          ->add('nbrChambres', ChoiceType::class, array(
+              'choices' => array(
+                  '1' => 1,
+                  '2' => 2,
+                  '3' => 3,
+                  '4' => 4,
+                  '5' => 5,
 
-      //image 2:
-      $image2 = new Image();
-      $image2->setUrl('assets/images/App1/appartement-a-louer-1.jpg');
-      $image2->setAdvert($advert);
+              ),
+          ))
+          ->add('nbrToilettes', ChoiceType::class, array(
+              'choices' => array(
+                  '1' => 1,
+                  '2' => 2,
+                  '3' => 3,
+                  '4' => 4,
 
-      //image 3:
-      $image3 = new Image();
-      $image3->setUrl('assets/images/App1/appartements-brussel-18.jpg');
-      $image3->setAdvert($advert);
+              ),
+          ))
+          ->add('ville', ChoiceType::class, array(
+              'choices' => array(
+                  'Marrakech' => 'Marrakech',
+                  'Casablanca' => 'Casablanca',
+                  'Rabat' => 'Rabat',
+                  'Agadir' => 'Agadir',
 
-      //image 4:
-      $image4 = new Image();
-      $image4->setUrl('assets/images/App1/appartements-brussel-22.jpg');
-      $image4->setAdvert($advert);
+              ),
+          ))
+          ->add('region', ChoiceType::class, array(
+              'choices' => array(
+                  'Gueliz' => 'Gueliz',
+                  'Daoudiate' => 'Daoudiate',
+                  'Assif' => 'Assif',
+                  'Saada' => 'Saada',
+                  'Sidi abbad' => 'Sidi abbad',
+                  'Issil' => 'Issil',
 
+              ),
+          ))
+          ->add('universite', ChoiceType::class, array(
+              'choices' => array(
+                  'FST' => 'FST',
+                  'ENSA' => 'ENSA',
+                  'SEMLALIA' => 'SEMLALIA',
+                  'FAC de droit' => 'FAC de droit',
 
-      // On récupère l'EntityManager
-      $em = $this->getDoctrine()->getManager();
+              ),
+          ))
+          ->add('titre', TextType::class)
+          ->add('description', TextareaType::class)
+          ->add('addresse', TextType::class)
+          ->add('prix', MoneyType::class, array(
+              'currency' => false
+          ))
+          ->add('ascenceur', CheckboxType::class,array('required'=> false))
+          ->add('meuble', CheckboxType::class)
+          ->add('parcking', CheckboxType::class)
+          ->add('chauffe', CheckboxType::class)
+          ->add('uploadedFiles',  FileType::class, array(
+              'multiple' => true
+          ))
+          ->getForm()
+      ;
 
-      // Étape 1 : On « persiste » l'entité
-      $em->persist($advert);
-      $em->persist($image);
-      $em->persist($image2);
-      $em->persist($image3);
-      $em->persist($image4);
-
-      // Étape 2 : On « flush » tout ce qui a été persisté avant
-      $em->flush();
-
-      // Reste de la méthode qu'on avait déjà écrit
+      // Si la requête est en POST
       if ($request->isMethod('POST')) {
-          $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
+          // On fait le lien Requête <-> Formulaire
+          // À partir de maintenant, la variable $advert contient les valeurs entrées dans le formulaire par le visiteur
+          $form->handleRequest($request);
 
-          // Puis on redirige vers la page de visualisation de cettte annonce
-          return $this->redirectToRoute('oc_platform_view', array('id' => $advert->getId()));
+          // On vérifie que les valeurs entrées sont correctes
+          // (Nous verrons la validation des objets en détail dans le prochain chapitre)
+          if ($form->isValid()) {
+
+              // On récupère l'EntityManager
+              $em = $this->getDoctrine()->getManager();
+
+              foreach($advert->getUploadedFiles() as $uploadedFile)
+              {
+                  $image = new Images();
+
+                  /*
+                   * These lines could be moved to the File Class constructor to factorize
+                   * the File initialization and thus allow other classes to own Files
+                   */
+                  $path = sha1(uniqid(mt_rand(), true)).'.'.$uploadedFile->guessExtension();
+                  $image->setPath($path);
+                  $image->setSize($uploadedFile->getClientSize());
+                  $image->setName($uploadedFile->getClientOriginalName());
+                  $imageName = md5(uniqid()).'.'.$uploadedFile->guessExtension();
+                  $image->setPath('uploads/images/'.$imageName);
+
+                  $uploadedFile->move($this->getParameter('brochures_directory'), $imageName);
+
+                  $advert->getImages()->add($image);
+                  $image->setAnnonce($advert);
+                  $em->persist($image);
+
+                  unset($uploadedFile);
+              }
+              $em->persist($advert);
+              $em->flush();
+
+              // On redirige vers la page de visualisation de l'annonce nouvellement créée
+              return $this->redirectToRoute('oc_platform_view', array('id' => $advert->getId()));
+          }
       }
 
-      // Si on n'est pas en POST, alors on affiche le formulaire
-      return $this->render('OCPlatformBundle:Advert:add.html.twig', array('advert' => $advert));
+      // À ce stade, le formulaire n'est pas valide car :
+      // - Soit la requête est de type GET, donc le visiteur vient d'arriver sur la page et veut voir le formulaire
+      // - Soit la requête est de type POST, mais le formulaire contient des valeurs invalides, donc on l'affiche de nouveau
+      return $this->render('OCPlatformBundle:Advert:add.html.twig', array(
+          'form' => $form->createView(),
+      ));
+
+
   }
+
+
+
+
 
   public function editAction($id, Request $request)
   {
@@ -182,49 +291,136 @@ Cuisine entièrement équipée");
     ));
   }
 
-  public function annoncesAction ($page)
+    public function annoncesAction ($page)
+    {
+        // On récupère le repository
+        $em = $this->getDoctrine()
+            ->getManager();
+
+        $listAdverts = $em->getRepository('OCPlatformBundle:Annonce')->findBy(
+            array('publier' => 1)
+        );
+        foreach ($listAdverts as $advert)
+        {
+            $image = $em->getRepository('OCPlatformBundle:Images')->findOneBy(
+                array('annonce' => $advert)
+            );
+
+            $advert->setImagePrincipale($image->getPath());
+        }
+        return $this->render('OCPlatformBundle:Advert:annonces.html.twig', array('listAdvert' => $listAdverts));
+    }
+
+  public function annoncesappartementsAction ($page)
   {
-      // On ne sait pas combien de pages il y a
-      // Mais on sait qu'une page doit être supérieure ou égale à 1
-      if ($page < 1) {
-          // On déclenche une exception NotFoundHttpException, cela va afficher
-          // une page d'erreur 404 (qu'on pourra personnaliser plus tard d'ailleurs)
-          throw new NotFoundHttpException('Page "'.$page.'" inexistante.');
-      }
-
-      // Ici, on récupérera la liste des annonces, puis on la passera au template
-
-      // ...
-
-      // Notre liste d'annonce en dur
       // On récupère le repository
       $em = $this->getDoctrine()
           ->getManager();
 
-
-      // On récupère l'entité correspondante à l'id $id
-      $listAdverts = $em->getRepository('OCPlatformBundle:Annonce')->findAll();
-      $image[] = null ;
-      $i=0;
+      $listAdverts = $em->getRepository('OCPlatformBundle:Annonce')->findBy( array("type" => "Appartement"));
       foreach ($listAdverts as $advert)
       {
-          $image = $em->getRepository('OCPlatformBundle:Image')->findOneBy(
-              array('advert' => $advert)
+          $image = $em->getRepository('OCPlatformBundle:Images')->findOneBy(
+              array('annonce' => $advert)
           );
 
-          $advert->setUrlImage($image->getUrl());
+          $advert->setImagePrincipale($image->getPath());
       }
-
-
-
-      return $this->render('OCPlatformBundle:Advert:annonces.html.twig', array(
-          'listAdverts' => $listAdverts ));
+      return $this->render('OCPlatformBundle:Advert:annonces.html.twig', array('listAdvert' => $listAdverts));
   }
+    public function annonceschambresAction ($page)
+    {
+        // On récupère le repository
+        $em = $this->getDoctrine()
+            ->getManager();
+
+        $listAdverts = $em->getRepository('OCPlatformBundle:Annonce')->findBy( array("type" => "Chambre"));
+        foreach ($listAdverts as $advert)
+        {
+            $image = $em->getRepository('OCPlatformBundle:Images')->findOneBy(
+                array('annonce' => $advert)
+            );
+
+            $advert->setImagePrincipale($image->getPath());
+        }
+        return $this->render('OCPlatformBundle:Advert:annonces.html.twig', array('listAdvert' => $listAdverts));
+    }
+    public function annoncescolocationAction ($page)
+    {
+        // On récupère le repository
+        $em = $this->getDoctrine()
+            ->getManager();
+
+        $listAdverts = $em->getRepository('OCPlatformBundle:Annonce')->findBy( array("type" => "Colocation"));
+        foreach ($listAdverts as $advert)
+        {
+            $image = $em->getRepository('OCPlatformBundle:Images')->findOneBy(
+                array('annonce' => $advert)
+            );
+
+            $advert->setImagePrincipale($image->getPath());
+        }
+        return $this->render('OCPlatformBundle:Advert:annonces.html.twig', array('listAdvert' => $listAdverts));
+    }
 
   public function loginAction()
   {
       return $this->render('OCPlatformBundle:Advert:login.html.twig');
   }
+public function testAction()
+{
+    return $this->render('OCPlatformBundle:Advert:test.html.twig');
+}
+public function annoncesgridAction($page)
+    {
+        return $this->render('OCPlatformBundle:Advert:annoncesgrid.html.twig');
+    }
+
+    public function contactAction()
+    {
+        return $this->render('OCPlatformBundle:Advert:contact.html.twig');
+    }
+
+    public function aboutAction()
+    {
+        return $this->render('OCPlatformBundle:Advert:about.html.twig');
+    }
+
+    public function blogAction()
+    {
+        return $this->render('OCPlatformBundle:Advert:blog.html.twig');
+    }
+
+    public function adminAction()
+    {
+        // On récupère le repository
+        $em = $this->getDoctrine()
+            ->getManager();
+
+        $listAdverts = $em->getRepository('OCPlatformBundle:Annonce')->findBy( array("publier" => 0));
+        foreach ($listAdverts as $advert)
+        {
+            $image = $em->getRepository('OCPlatformBundle:Images')->findOneBy(
+                array('annonce' => $advert)
+            );
+
+            $advert->setImagePrincipale($image->getPath());
+        }
+        return $this->render('OCPlatformBundle:Advert:annonces.html.twig', array('listAdvert' => $listAdverts));
+    }
+
+    public function activeAction($id)
+    {
+        // On récupère le repository
+        $em = $this->getDoctrine()
+            ->getManager();
+
+        $advert = $em->getRepository('OCPlatformBundle:Annonce')->find($id);
+        $advert->setPublier(1);
+        $em->persist($advert);
+        $em->flush();
+        return $this->redirectToRoute('oc_platform_admin');
+    }
 
 }
 ?>

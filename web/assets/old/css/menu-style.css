@@ -1,0 +1,42 @@
+
+.dropdown-toggle:hover
+{
+    background-color: rgb(240,247,247) !important;
+}
+.navbar-nav li a{
+    color: #ffffff !important;
+}
+
+.navbar-nav li a:hover{
+    color: rgb(8,129,243) !important;
+    background: rgb(240,247,247) !important;
+
+}
+.navbar, .dropdown-menu{
+    background:#3498db;
+    border: none;
+
+}
+
+.nav>li>a, .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover, .dropdown-menu>li>a, .dropdown-menu>li{
+    border-bottom: 3px solid transparent;
+}
+.nav>li>a:focus, .nav>li>a:hover,.nav .open>a, .nav .open>a:focus, .nav .open>a:hover, .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover{
+    border-bottom: 3px solid transparent;
+    background: none;
+}
+
+.navbar a, .dropdown-menu>li>a, .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover, .navbar-toggle{
+    color: #fff;
+}
+.dropdown-menu{
+    -webkit-box-shadow: none;
+    box-shadow:none;
+}
+
+
+.navbar-toggle .icon-bar{
+    color: #fff;
+    background: #fff;
+}
+

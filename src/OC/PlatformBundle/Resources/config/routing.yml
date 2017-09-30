@@ -1,17 +1,64 @@
 
+oc_platform_active:
+    path:    /active/{id}
+    defaults:
+        _controller: OCPlatformBundle:Advert:active
+    requirements:
+        id: \d+
 
-oc_platform_annonces:
-    path:    /annonces/{page}
+oc_platform_admin:
+    path:    /admin
+    defaults:
+        _controller: OCPlatformBundle:Advert:admin
+
+oc_platform_annonces_marrakech:
+    path:    /annonces/marrakech/{page}
     defaults:
         _controller: OCPlatformBundle:Advert:annonces
         page: 1
     requirements:
         page: \d*
 
+oc_platform_annonces_appartements:
+    path:    /annonces/appartements/{page}
+    defaults:
+        _controller: OCPlatformBundle:Advert:annoncesappartements
+        page: 1
+    requirements:
+        page: \d*
+oc_platform_annonces_chambres:
+    path:    /annonces/chambres/{page}
+    defaults:
+        _controller: OCPlatformBundle:Advert:annonceschambres
+        page: 1
+    requirements:
+        page: \d*
+oc_platform_annonces_colocation:
+    path:    /annonces/colocation/{page}
+    defaults:
+        _controller: OCPlatformBundle:Advert:annoncescolocation
+        page: 1
+    requirements:
+        page: \d*
+oc_platform_annonces_grid:
+    path:    /annonces_grid/{page}
+    defaults:
+        _controller: OCPlatformBundle:Advert:annoncesgrid
+        page: 1
+    requirements:
+        page: \d*
+
+
 oc_platform_home:
     path:    /
     defaults: 
         _controller: OCPlatformBundle:Advert:index
+
+
+oc_platform_test:
+    path:    /test
+    defaults:
+        _controller: OCPlatformBundle:Advert:test
     
 oc_platform_view:
     path:    /advert/{id}
@@ -36,8 +83,17 @@ oc_platform_delete:
         _controller: OCPlatformBundle:Advert:delete
     requirements: 
         id: \d+
-
-oc_platform_login:
-    path:    /login
+oc_platform_contact:
+    path:    /contact
     defaults:
-        _controller: OCPlatformBundle:Advert:login
+        _controller: OCPlatformBundle:Advert:contact
+
+oc_platform_about:
+    path:    /about
+    defaults:
+        _controller: OCPlatformBundle:Advert:about
+
+oc_platform_blog:
+    path:    /blog
+    defaults:
+        _controller: OCPlatformBundle:Advert:blog

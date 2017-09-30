@@ -9,107 +9,274 @@
 {% block sous_menu %}
 
 
-  <li class=""><a href="{{ path('oc_platform_home') }}" style="color: #ff8b09"><h5><strong>HOME</strong></h5><span class="sr-only">(current)</span></a></li>
-  <li><a href="{{ path('oc_platform_annonces') }}" style="color: #ff8b09"><h5><strong>ANNONCES</strong></h5></a></li>
-  <li><a href="#" data-toggle="modal" data-target="#id-popup" style="color: #ff8b09"><h5><strong>CONNEXION</strong></h5></a></li>
+    <ul class="nav navbar-nav">
+        <li class="">
+            <a href="{{ path("oc_platform_home") }}">
+                Acceuil
+            </a>
+        </li>
+        <li class="dropdown">
+            <a tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">
+                Catégories<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ path("oc_platform_annonces_appartements") }}">Appartement</a></li>
+                <li><a href="{{ path("oc_platform_annonces_chambres") }}">Chambres</a></li>
+                <li><a href="{{ path("oc_platform_annonces_colocation") }}">Colocation</a></li>
+            </ul>
+        </li>
+        <li class="">
+            <a href="{{ path("oc_platform_contact") }}">
+                Contactez-nous
+            </a>
+        </li>
+        <li class="">
+            <a href="{{ path("oc_platform_about") }}">
+                A propos
+            </a>
+        </li>
+        <li class="">
+            <a href="{{ path("oc_platform_blog") }}">
+                Blog
+            </a>
+        </li>
+
+    </ul>
 
 {% endblock %}
 
 {% block ocplatform_body %}
+    <!-- Properties details page start -->
+    <div class="properties-details-page content-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <!-- Header -->
+                    <div class="heading-properties clearfix sidebar-widget">
+                        <div class="pull-left">
+                            <h3>{{ advert.titre }}</h3>
+                            <p>
+                                <i class="fa fa-map-marker"></i>{{ advert.addresse }}
+                            </p>
+                        </div>
+                        <div class="pull-right">
+                            <h3><span>{{ advert.prix }} DH</span></h3>
+                            <h5>
+                                Per Manth
+                            </h5>
+                        </div>
+                    </div>
+                    <!-- Properties details section start -->
+                    <div class="sidebar-widget mrg-btm-40">
+                        <!-- Properties detail slider start -->
+                        <div class="properties-detail-slider simple-slider mrg-btm-40 ">
+                            <div id="carousel-custom" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-outer">
+                                    <!-- Wrapper for slides -->
+                                    <div class="carousel-inner">
+                                        {% for image in listeImages %}
+                                            {% if loop.index0 == 0 %}
+                                        <div class="item active">
+                                            <img src="{{ asset(image.path) }}" class="thumb-preview" alt="Chevrolet Impala">
+                                        </div>
+                                            {% else %}
+                                                <div class="item">
+                                                    <img src="{{ asset(image.path) }}" class="thumb-preview" alt="Chevrolet Impala">
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <!-- Controls -->
+                                    <a class="left carousel-control" href="#carousel-custom" role="button" data-slide="prev">
+                                    <span class="slider-mover-left no-bg" aria-hidden="true">
+                                        <i class="fa fa-angle-left"></i>
+                                    </span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="right carousel-control" href="#carousel-custom" role="button" data-slide="next">
+                                    <span class="slider-mover-right no-bg" aria-hidden="true">
+                                        <i class="fa fa-angle-right"></i>
+                                    </span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                                <!-- Indicators -->
+                                <ol class="carousel-indicators thumbs visible-lg visible-md">
+                                    {% for image in listeImages %}
+                                    <li data-target="#carousel-custom" data-slide-to="{{ loop.index0 }}" class=""><img src="{{ asset(image.path ) }}" alt="Chevrolet Impala"></li>
+                                        {% endfor %}
+                                </ol>
+                            </div>
+                        </div>
+                        <!-- Properties detail slider end -->
 
-  <h2>{{ advert.titre }}</h2>
-  <i>Par {{ advert.auteur }}, le {{ advert.date|date('d/m/Y') }}</i>
+                        <!-- Properties description start -->
+                        <div class="properties-description mrg-btm-40 ">
+                            <div class="main-title-2">
+                                <h1><span>Description</span></h1>
+                            </div>
+                            <p>{{ advert.description }}</p>
+                        </div>
+                        <!-- Properties description end -->
 
-<!-- Slider_annonces -->
-<!--{% for image in listeImages %}
-    <img src="{{ asset(image.url) }}" alt="{{ image.alt }}">
-    {% endfor %}-->
+                        <!-- Properties condition start -->
+                        <div class="properties-condition mrg-btm-40 ">
+                            <div class="main-title-2">
+                                <h1><span>Caractéristiques principale</span></h1>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <ul class="condition">
+                                        <li>
+                                            <i class="flaticon-bed"></i>{{ advert.nbrChambres }} Chambres
+                                        </li>
+                                        <li>
+                                            <i class="flaticon-holidays"></i> {{ advert.nbrToilettes }} toilettes
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <ul class="condition">
+                                        <li>
+                                            <i class="flaticon-apartment"></i>Au {{ advert.quelEtage }} ème Etage
+                                        </li>
 
-  <div class="container">
-    <div id="main_area">
-      <!-- Slider -->
-      <div class="row">
-        <div class="col-xs-12" id="slider">
-          <!-- Top part of the slider -->
-          <div class="row">
-            <div class="col-sm-8" id="carousel-bounding-box">
-              <div class="carousel slide" id="myCarousel">
-                <!-- Carousel items -->
-
-                <div class="carousel-inner">
+                                    </ul>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <ul class="condition">
 
 
-                  {% for image in listeImages %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Properties condition end -->
 
-                  <div class="item" data-slide-number="{{ loop.index0 }}">
-                    <img src="{{ asset(image.url) }}" alt="{{ image.alt }}"></div>
+                        <!-- Properties amenities start -->
+                        <div class="properties-amenities">
+                            <div class="main-title-2">
+                                <h1><span>Caractéristiques supplementaires</span></h1>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <ul class="amenities">
+                                        {% if advert.meuble %}
+                                            <li>
+                                                <i class="flaticon-bed"></i>
+                                                <span>Meublé</span>
+                                            </li>
+                                        {% else %}
+                                        {% endif %}
+                                        {% if advert.ascenceur %}
+                                            <li>
+                                                <i class="flaticon-shape"></i>
+                                                <span>Avec ascenceur</span>
+                                            </li>
+                                        {% else %}
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <ul class="amenities">
+                                        {% if advert.parcking %}
+                                            <li>
+                                                <i class="flaticon-vehicle"></i>
+                                                <span>Avec parcking</span>
+                                            </li>
+                                        {% else %}
+                                        {% endif %}
+                                        {% if advert.chauffe %}
+                                            <li>
+                                                <i class="flaticon-air-conditioner"></i>
+                                                <span>Avec chauffage</span>
+                                            </li>
+                                        {% else %}
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Properties amenities end -->
+                    </div>
+                    <!-- Properties details section end -->
 
-                  {% endfor %}
+                    <!-- Location start -->
+                    <div class="location sidebar-widget">
+                        <div class="map">
+                            <div class="main-title-2">
+                                <h1><span>Localisation</span></h1>
+                            </div>
+                            <div id="map" class="contact-map"></div>
+                        </div>
+                    </div>
+                    <!-- Location end -->
 
+                    <!-- Location start -->
+                    <div class="location sidebar-widget">
+                            <div class="main-title-2">
+                                <h1><span>ACTIVATION</span></h1>
+                            </div>
+                        <a href="{{ path('oc_platform_active', {'id': advert.id}) }}" class="btn button-md border-button-theme">Publier!</a>
+                    </div>
+                    <!-- Location end -->
 
                 </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <!-- Sidebar start -->
+                    <div class="sidebar right">
 
-                <!-- Carousel nav -->
-                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                  <span class="glyphicon glyphicon-chevron-left"></span>
-                </a>
-                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                  <span class="glyphicon glyphicon-chevron-right"></span>
-                </a>
-              </div>
+                        <!-- Social media start -->
+                        <div class="social-media sidebar-widget clearfix">
+                            <!-- Main Title 2 -->
+                            <div class="main-title-2">
+                                <h1><span>Réseaux</span> Sociaux</h1>
+                            </div>
+                            <!-- Social list -->
+                            <ul class="social-list">
+                                <li><a href="#" class="facebook"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#" class="twitter"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a></li>
+                                <li><a href="#" class="google"><i class="fa fa-google-plus"></i></a></li>
+                                <li><a href="#" class="rss"><i class="fa fa-rss"></i></a></li>
+                            </ul>
+                        </div>
+                        <!-- Social media end -->
+
+
+                        <!-- Helping center start -->
+                        <div class="sidebar-widget helping-box clearfix">
+                            <div class="main-title-2">
+                                <h1><span>Centre</span> d'aide</h1>
+                            </div>
+                            <div class="helping-center">
+                                <div class="icon"><i class="fa fa-map-marker"></i></div>
+                                <h4>Address</h4>
+                                <span>123 Kathal St. Tampa City,</span>
+                            </div>
+                            <div class="helping-center">
+                                <div class="icon"><i class="fa fa-phone"></i></div>
+                                <h4>Phone</h4>
+                                <p><a href="tel:+55-417-634-7071">+55 417 634 7071</a> </p>
+                            </div>
+                        </div>
+                        <!-- Helping center end -->
+
+                        <!-- Latest tweet start -->
+                        <div class="sidebar-widget latest-tweet">
+                            <div class="main-title-2">
+                                <h1><span>Derniers </span> Tweet</h1>
+                            </div>
+                            <p><a href="#">@Lorem ipsum dolor</a> sit amet, consectetur adipiscing elit. Aenean id dignissim justo. Maecenas urna lacus, bibendum </p>
+                            <p>@Lorem ipsum dolor<a href="#">sit amet, consectetur</a> adipiscing elit. Aenean id dignissim justo. Maecenas urna lacus, bibendum quis orci </p>
+                        </div>
+                        <!-- Latest tweet end -->
+                    </div>
+                    <!-- Sidebar end -->
+                </div>
             </div>
-
-            <div class="col-sm-4" id="carousel-text"></div>
-
-            <div id="slide-content" style="display: none;">
-
-    {% for image in listeImages %}
-
-              <div id="slide-content-{{ loop.index0 }}">
-                <h2>{{ advert.titre }}</h2>
-                <p>{{ advert.phraseType }}</p>
-                <p class="sub-text">{{ advert.date|date('d/m/Y') }}<br><a href="#"><h5>Afficher Numero</h5></a></p>
-              </div>
-        {% endfor %}
-
-
-            </div>
-          </div>
         </div>
-      </div><!--/Slider-->
-
-      <div class="row hidden-xs" id="slider-thumbs">
-        <!-- Bottom switcher of slider -->
-        <ul class="hide-bullets">
-
-    {% for image in listeImages %}
-          <li class="col-sm-2">
-            <a class="thumbnail" id="carousel-selector-0"><img src="{{ asset(image.url) }}" alt="{{ image.alt }}"></a>
-          </li>
-      {% endfor %}
-        </ul>
-      </div>
     </div>
-  </div>
-
-
-  <div class="well">
-    {{ advert.description }}
-  </div>
-
-  <p>
-    <a href="{{ path('oc_platform_home') }}" class="btn btn-default">
-      <i class="glyphicon glyphicon-chevron-left"></i>
-      Retour à la liste
-    </a>
-    <a href="{{ path('oc_platform_edit', {'id': advert.id}) }}" class="btn btn-default">
-      <i class="glyphicon glyphicon-edit"></i>
-      Modifier l'annonce
-    </a>
-    <a href="{{ path('oc_platform_delete', {'id': advert.id}) }}" class="btn btn-danger">
-      <i class="glyphicon glyphicon-trash"></i>
-      Supprimer l'annonce
-    </a>
-  </p>
+    <!-- Properties details page end -->
 
 {% endblock %}
