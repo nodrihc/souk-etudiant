@@ -2,24 +2,18 @@
 
 namespace OC\PlatformBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Image
+ * Myfile
  *
- * @ORM\Table(name="image")
- * @ORM\Entity(repositoryClass="OC\PlatformBundle\Repository\ImageRepository")
+ * @ORM\Table(name="myfile")
+ * @ORM\Entity(repositoryClass="OC\PlatformBundle\Repository\MyfileRepository")
  */
-class Image
+class Myfile
 {
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Annonce", inversedBy="images")
-     * @ORM\JoinColumn(name="annonce_id", referencedColumnName="id")
-     */
-    private $category;
-
-
     /**
      * @var int
      *
@@ -36,6 +30,20 @@ class Image
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="string")
+     *
+     * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
+     * @Assert\File(mimeTypes={ "application/pdf" })
+     */
+    private $brochure;
+
+
+
+    public function __construct()
+    {
+        $this->brochure = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -52,7 +60,7 @@ class Image
      *
      * @param string $name
      *
-     * @return Image
+     * @return Myfile
      */
     public function setName($name)
     {
@@ -70,5 +78,9 @@ class Image
     {
         return $this->name;
     }
-}
 
+
+
+
+
+}

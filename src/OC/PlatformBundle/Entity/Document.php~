@@ -1,0 +1,88 @@
+<?php
+
+namespace OC\PlatformBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Document
+ *
+ * @ORM\Table(name="document")
+ * @ORM\Entity(repositoryClass="OC\PlatformBundle\Repository\DocumentRepository")
+ */
+class Document
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    /**
+     * @var Images
+     *
+     * @ORM\OneToMany(targetEntity="Images", mappedBy="document", cascade={"persist"})
+     *
+     */
+    private $files;
+
+    /**
+     * @var ArrayCollection
+     */
+    private $uploadedFiles;
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->files = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->uploadedFiles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add file
+     *
+     * @param \OC\PlatformBundle\Entity\Images $file
+     *
+     * @return Document
+     */
+    public function addFile(\OC\PlatformBundle\Entity\Images $file)
+    {
+        $this->files[] = $file;
+
+        return $this;
+    }
+
+    /**
+     * Remove file
+     *
+     * @param \OC\PlatformBundle\Entity\Images $file
+     */
+    public function removeFile(\OC\PlatformBundle\Entity\Images $file)
+    {
+        $this->files->removeElement($file);
+    }
+
+    /**
+     * Get files
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFiles()
+    {
+        return $this->files;
+    }
+}

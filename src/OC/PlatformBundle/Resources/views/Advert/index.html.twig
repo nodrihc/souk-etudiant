@@ -13,7 +13,7 @@
     <ul class="nav navbar-nav">
         <li class="active">
             <a href="{{ path("oc_platform_home") }}">
-                Acceuil
+                Accueil
             </a>
         </li>
         <li class="dropdown">
@@ -41,6 +41,15 @@
                 Blog
             </a>
         </li>
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <li class="">
+            <a href="{{ path("oc_platform_profile") }}">
+                Mon profile
+            </a>
+        </li>
+    {% else %}
+    {% endif %}
+
 
     </ul>
 
@@ -283,21 +292,21 @@
                     <div class="content">
                         <i class="flaticon-apartment"></i>
                         <h4>Appartments</h4>
-                        <p>Vous êtes un groupe d'étudiant nouveaux ou ancien au MAROC, et vous cherchez un appartement pour loger ensemble durant votre année scolaire. Venez visiter notre rubrique Appartement!</p>
+                        <p style="font-size: 15px">Vous êtes un groupe d'étudiant nouveaux ou ancien au MAROC, et vous cherchez un appartement pour loger ensemble durant votre année scolaire. Venez visiter notre rubrique Appartement!</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12 wow fadeInLeft delay-04s">
                     <div class="content">
                         <i class="flaticon-bed"></i>
                         <h4>Chambre</h4>
-                        <p>Vous êtes un d'étudiant nouveaux ou ancien au MAROC, et vous cherchez une chambre pour habiter durant votre année scolaire. Venez visiter notre rubrique Chambre étudiant!</p>
+                        <p style="font-size: 15px">Vous êtes un d'étudiant nouveaux ou ancien au MAROC, et vous cherchez une chambre pour habiter durant votre année scolaire. Venez visiter notre rubrique Chambre étudiant!</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 wow fadeInRight delay-04s">
                     <div class="content">
                         <i class="flaticon-social"></i>
                         <h4>Colocation</h4>
-                        <p>Vous êtes un d'étudiant nouveaux ou ancien au MAROC, et vous cherchez une colocation pour habiter avec un autre étudiant durant votre année scolaire. Venez visiter notre rubrique Colocation!</p>
+                        <p style="font-size: 15px">Vous êtes un d'étudiant nouveaux ou ancien au MAROC, et vous cherchez une colocation pour habiter avec un autre étudiant durant votre année scolaire. Venez visiter notre rubrique Colocation!</p>
                     </div>
                 </div>
             </div>

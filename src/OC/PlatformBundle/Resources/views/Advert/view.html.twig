@@ -12,7 +12,7 @@
     <ul class="nav navbar-nav">
         <li class="">
             <a href="{{ path("oc_platform_home") }}">
-                Acceuil
+                Accueil
             </a>
         </li>
         <li class="dropdown">
@@ -40,7 +40,14 @@
                 Blog
             </a>
         </li>
-
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <li class="">
+                <a href="{{ path("oc_platform_profile") }}">
+                    Mon profile
+                </a>
+            </li>
+        {% else %}
+        {% endif %}
     </ul>
 
 {% endblock %}
@@ -62,7 +69,7 @@
                         <div class="pull-right">
                             <h3><span>{{ advert.prix }} DH</span></h3>
                             <h5>
-                                Per Manth
+                                Par mois
                             </h5>
                         </div>
                     </div>

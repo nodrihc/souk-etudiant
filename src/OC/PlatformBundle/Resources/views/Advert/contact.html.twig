@@ -10,7 +10,7 @@
     <ul class="nav navbar-nav">
         <li class="">
             <a href="{{ path("oc_platform_home") }}">
-                Acceuil
+                Accueil
             </a>
         </li>
         <li class="dropdown">
@@ -38,6 +38,14 @@
                 Blog
             </a>
         </li>
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <li class="">
+                <a href="{{ path("oc_platform_profile") }}">
+                    Mon profile
+                </a>
+            </li>
+        {% else %}
+        {% endif %}
 
     </ul>
 
@@ -54,7 +62,7 @@
                 <div class="breadcrumb-area">
                     <h1>Contact</h1>
                     <ul class="breadcrumbs">
-                        <li><a href="index.html">Acceuil</a></li>
+                        <li><a href="index.html">Accueil</a></li>
                         <li class="active">Contact</li>
                     </ul>
                 </div>

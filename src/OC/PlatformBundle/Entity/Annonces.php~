@@ -1,0 +1,339 @@
+<?php
+
+namespace OC\PlatformBundle\Entity;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+/**
+ * Annonces
+ * @Vich\Uploadable
+ */
+class Annonces
+{
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $titre;
+
+    /**
+     * @var string
+     */
+    private $description;
+
+    /**
+     * @var string
+     */
+    private $addresse;
+
+    /**
+     * @var int
+     */
+    private $prix;
+
+    /**
+     * @var int
+     */
+    private $nbrChambres;
+
+    /**
+     * @var int
+     */
+    private $quelEtage;
+
+    /**
+     * @var bool
+     */
+    private $ascenceur;
+
+    /**
+     * @var int
+     */
+    private $nbrToilettes;
+
+    /**
+     * @var bool
+     */
+    private $meubles;
+
+    /**
+     * @ORM\Column(name="parking", type="boolean")
+     */
+    private $parking;
+
+    /**
+     * @var string
+     */
+    private $image;
+
+    /**
+     * @Vich\UploadableField(mapping="product_images", fileNameProperty="image")
+     * @var File
+     */
+    private $imageFile;
+
+    /**
+     * @var \DateTime
+     */
+    private $updatedAt;
+
+
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($image) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set titre
+     *
+     * @param string $titre
+     *
+     * @return Annonces
+     */
+    public function setTitre($titre)
+    {
+        $this->titre = $titre;
+
+        return $this;
+    }
+
+    /**
+     * Get titre
+     *
+     * @return string
+     */
+    public function getTitre()
+    {
+        return $this->titre;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Annonces
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set addresse
+     *
+     * @param string $addresse
+     *
+     * @return Annonces
+     */
+    public function setAddresse($addresse)
+    {
+        $this->addresse = $addresse;
+
+        return $this;
+    }
+
+    /**
+     * Get addresse
+     *
+     * @return string
+     */
+    public function getAddresse()
+    {
+        return $this->addresse;
+    }
+
+    /**
+     * Set prix
+     *
+     * @param integer $prix
+     *
+     * @return Annonces
+     */
+    public function setPrix($prix)
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
+    /**
+     * Get prix
+     *
+     * @return int
+     */
+    public function getPrix()
+    {
+        return $this->prix;
+    }
+
+    /**
+     * Set nbrChambres
+     *
+     * @param integer $nbrChambres
+     *
+     * @return Annonces
+     */
+    public function setNbrChambres($nbrChambres)
+    {
+        $this->nbrChambres = $nbrChambres;
+
+        return $this;
+    }
+
+    /**
+     * Get nbrChambres
+     *
+     * @return int
+     */
+    public function getNbrChambres()
+    {
+        return $this->nbrChambres;
+    }
+
+    /**
+     * Set quelEtage
+     *
+     * @param integer $quelEtage
+     *
+     * @return Annonces
+     */
+    public function setQuelEtage($quelEtage)
+    {
+        $this->quelEtage = $quelEtage;
+
+        return $this;
+    }
+
+    /**
+     * Get quelEtage
+     *
+     * @return int
+     */
+    public function getQuelEtage()
+    {
+        return $this->quelEtage;
+    }
+
+    /**
+     * Set ascenceur
+     *
+     * @param boolean $ascenceur
+     *
+     * @return Annonces
+     */
+    public function setAscenceur($ascenceur)
+    {
+        $this->ascenceur = $ascenceur;
+
+        return $this;
+    }
+
+    /**
+     * Get ascenceur
+     *
+     * @return bool
+     */
+    public function getAscenceur()
+    {
+        return $this->ascenceur;
+    }
+
+    /**
+     * Set nbrToilettes
+     *
+     * @param integer $nbrToilettes
+     *
+     * @return Annonces
+     */
+    public function setNbrToilettes($nbrToilettes)
+    {
+        $this->nbrToilettes = $nbrToilettes;
+
+        return $this;
+    }
+
+    /**
+     * Get nbrToilettes
+     *
+     * @return int
+     */
+    public function getNbrToilettes()
+    {
+        return $this->nbrToilettes;
+    }
+
+    /**
+     * Set meubles
+     *
+     * @param boolean $meubles
+     *
+     * @return Annonces
+     */
+    public function setMeubles($meubles)
+    {
+        $this->meubles = $meubles;
+
+        return $this;
+    }
+
+    /**
+     * Get meubles
+     *
+     * @return bool
+     */
+    public function getMeubles()
+    {
+        return $this->meubles;
+    }
+}

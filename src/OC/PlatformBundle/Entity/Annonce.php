@@ -22,7 +22,11 @@ class Annonce
      */
     private $images;
 
-
+    /**
+     * @ORM\ManyToOne(targetEntity="OC\UserBundle\Entity\User", inversedBy="annonces")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     **/
+    private $user;
 
 
     /**
@@ -720,5 +724,30 @@ class Annonce
     public function getPublier()
     {
         return $this->publier;
+    }
+
+
+    /**
+     * Set user
+     *
+     * @param \OC\UserBundle\Entity\User $user
+     *
+     * @return Annonce
+     */
+    public function setUser(\OC\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \OC\UserBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

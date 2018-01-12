@@ -21,3 +21,4 @@ security:
         - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/add, role: ROLE_ADMIN }
         - { path: ^/admin, role: ROLE_SUPER_ADMIN }
+        - { path: ^/profile, role: ROLE_USER }

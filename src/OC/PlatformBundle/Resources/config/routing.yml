@@ -1,4 +1,12 @@
+oc_platform_myproperties:
+    path:    /myproperties
+    defaults:
+        _controller: OCPlatformBundle:Advert:properties
 
+oc_platform_profile:
+    path:    /profile
+    defaults:
+        _controller: OCPlatformBundle:Advert:profile
 oc_platform_active:
     path:    /active/{id}
     defaults:

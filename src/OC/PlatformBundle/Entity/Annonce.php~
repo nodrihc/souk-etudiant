@@ -2,6 +2,7 @@
 
 namespace OC\PlatformBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,22 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Annonce
 {
+
+    /**
+     * @var Images
+     *
+     * @ORM\OneToMany(targetEntity="Images", mappedBy="annonce", cascade={"persist"})
+     *
+     */
+    private $images;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="UserBundle\User", inversedBy="annonces")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     **/
+    private $user;
+
+
     /**
      * @var int
      *
@@ -20,20 +37,6 @@ class Annonce
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="datetime")
-     */
-    private $date;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="auteur", type="string", length=255)
-     */
-    private $auteur;
 
     /**
      * @var string
@@ -52,32 +55,126 @@ class Annonce
     /**
      * @var string
      *
-     * @ORM\Column(name="phrase_type", type="text")
+     * @ORM\Column(name="addresse", type="string", length=255)
      */
-    private $phraseType;
-
+    private $addresse;
 
     /**
      * @var int
+     *
      * @ORM\Column(name="prix", type="integer")
      */
-
     private $prix;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="nbr_chambres", type="integer")
+     */
+    private $nbrChambres;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="nbr_toilettes", type="integer")
+     */
+    private $nbrToilettes;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="quel_etage", type="integer")
+     */
+    private $quelEtage;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="ascenceur", type="boolean",nullable=true)
+     */
+    private $ascenceur = null;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="meuble", type="boolean", nullable=true)
+     */
+    private $meuble = null;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="parcking", type="boolean", nullable=true)
+     */
+    private $parcking = null;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="chauffe", type="boolean", nullable=true)
+     */
+    private $chauffe = null;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="publier", type="boolean")
+     */
+    private $publier = false;
+
+    /**
+     * @var ArrayCollection
+     */
+    public $uploadedFiles;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="urlImage", type="string", length=255)
+     * @ORM\Column(name="image_principale", type="string", length=255)
      */
+    private $imagePrincipale;
 
-    private $urlImage;
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255)
+     */
+    private $type;
 
-    public function __construct()
-    {
-        // Par défaut, la date de l'annonce est la date d'aujourd'hui
-        $this->date = new \Datetime();
-    }
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="string", length=255)
+     */
+    private $status;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ville", type="string", length=255)
+     */
+    private $ville;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="region", type="string", length=255)
+     */
+    private $region;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="universite", type="string", length=255)
+     */
+    private $universite;
 
 
     /**
@@ -88,54 +185,6 @@ class Annonce
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set date
-     *
-     * @param \DateTime $date
-     *
-     * @return Annonce
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \DateTime
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    /**
-     * Set auteur
-     *
-     * @param string $auteur
-     *
-     * @return Annonce
-     */
-    public function setAuteur($auteur)
-    {
-        $this->auteur = $auteur;
-
-        return $this;
-    }
-
-    /**
-     * Get auteur
-     *
-     * @return string
-     */
-    public function getAuteur()
-    {
-        return $this->auteur;
     }
 
     /**
@@ -187,27 +236,27 @@ class Annonce
     }
 
     /**
-     * Set phraseType
+     * Set addresse
      *
-     * @param string $phraseType
+     * @param string $addresse
      *
      * @return Annonce
      */
-    public function setPhraseType($phraseType)
+    public function setAddresse($addresse)
     {
-        $this->phraseType = $phraseType;
+        $this->addresse = $addresse;
 
         return $this;
     }
 
     /**
-     * Get phraseType
+     * Get addresse
      *
      * @return string
      */
-    public function getPhraseType()
+    public function getAddresse()
     {
-        return $this->phraseType;
+        return $this->addresse;
     }
 
     /**
@@ -227,10 +276,478 @@ class Annonce
     /**
      * Get prix
      *
-     * @return integer
+     * @return int
      */
     public function getPrix()
     {
         return $this->prix;
+    }
+
+    /**
+     * Set nbrChambres
+     *
+     * @param integer $nbrChambres
+     *
+     * @return Annonce
+     */
+    public function setNbrChambres($nbrChambres)
+    {
+        $this->nbrChambres = $nbrChambres;
+
+        return $this;
+    }
+
+    /**
+     * Get nbrChambres
+     *
+     * @return int
+     */
+    public function getNbrChambres()
+    {
+        return $this->nbrChambres;
+    }
+
+    /**
+     * Set nbrToilettes
+     *
+     * @param integer $nbrToilettes
+     *
+     * @return Annonce
+     */
+    public function setNbrToilettes($nbrToilettes)
+    {
+        $this->nbrToilettes = $nbrToilettes;
+
+        return $this;
+    }
+
+    /**
+     * Get nbrToilettes
+     *
+     * @return int
+     */
+    public function getNbrToilettes()
+    {
+        return $this->nbrToilettes;
+    }
+
+    /**
+     * Set quelEtage
+     *
+     * @param integer $quelEtage
+     *
+     * @return Annonce
+     */
+    public function setQuelEtage($quelEtage)
+    {
+        $this->quelEtage = $quelEtage;
+
+        return $this;
+    }
+
+    /**
+     * Get quelEtage
+     *
+     * @return int
+     */
+    public function getQuelEtage()
+    {
+        return $this->quelEtage;
+    }
+
+    /**
+     * Set ascenceur
+     *
+     * @param boolean $ascenceur
+     *
+     * @return Annonce
+     */
+    public function setAscenceur($ascenceur)
+    {
+        $this->ascenceur = $ascenceur;
+
+        return $this;
+    }
+
+    /**
+     * Get ascenceur
+     *
+     * @return bool
+     */
+    public function getAscenceur()
+    {
+        return $this->ascenceur;
+    }
+
+    /**
+     * Set meuble
+     *
+     * @param boolean $meuble
+     *
+     * @return Annonce
+     */
+    public function setMeuble($meuble)
+    {
+        $this->meuble = $meuble;
+
+        return $this;
+    }
+
+    /**
+     * Get meuble
+     *
+     * @return bool
+     */
+    public function getMeuble()
+    {
+        return $this->meuble;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->imagePrincipale = "default";
+        $this->ascenceur = false;
+        $this->meuble = false;
+        $this->chauffe = false;
+        $this->parcking = false;
+        $this->publier = false;
+        $this->date = new \Datetime();
+
+    }
+
+    /**
+     * Add image
+     *
+     * @param \OC\PlatformBundle\Entity\Images $image
+     *
+     * @return Annonce
+     */
+    public function addImage(\OC\PlatformBundle\Entity\Images $image)
+    {
+        $this->images[] = $image;
+
+        return $this;
+    }
+
+    /**
+     * Remove image
+     *
+     * @param \OC\PlatformBundle\Entity\Images $image
+     */
+    public function removeImage(\OC\PlatformBundle\Entity\Images $image)
+    {
+        $this->images->removeElement($image);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * Add uploadFiles
+     *
+     * @return Document
+     */
+    public function addUploadedFiles( array $uploadedFiles)
+    {
+        $this->uploadedFiles[] = $uploadedFiles;
+
+        return $this;
+    }
+
+    /**
+     * Remove file
+     *
+     * @param \OC\PlatformBundle\Entity\Images $file
+     */
+    public function removeUploadedFiles( $uploadedFiles)
+    {
+        $this->uploadedFiles->removeElement($uploadedFiles);
+    }
+
+    /**
+     * Get files
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUploadedFiles()
+    {
+        return $this->uploadedFiles;
+    }
+
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return Annonce
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set imagePrincipale
+     *
+     * @param string $imagePrincipale
+     *
+     * @return Annonce
+     */
+    public function setImagePrincipale($imagePrincipale)
+    {
+        $this->imagePrincipale = $imagePrincipale;
+
+        return $this;
+    }
+
+    /**
+     * Get imagePrincipale
+     *
+     * @return string
+     */
+    public function getImagePrincipale()
+    {
+        return $this->imagePrincipale;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Annonce
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     *
+     * @return Annonce
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set ville
+     *
+     * @param string $ville
+     *
+     * @return Annonce
+     */
+    public function setVille($ville)
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    /**
+     * Get ville
+     *
+     * @return string
+     */
+    public function getVille()
+    {
+        return $this->ville;
+    }
+
+    /**
+     * Set region
+     *
+     * @param string $region
+     *
+     * @return Annonce
+     */
+    public function setRegion($region)
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    /**
+     * Get region
+     *
+     * @return string
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
+
+    /**
+     * Set universite
+     *
+     * @param string $universite
+     *
+     * @return Annonce
+     */
+    public function setUniversite($universite)
+    {
+        $this->universite = $universite;
+
+        return $this;
+    }
+
+    /**
+     * Get universite
+     *
+     * @return string
+     */
+    public function getUniversite()
+    {
+        return $this->universite;
+    }
+
+    /**
+     * Set parcking
+     *
+     * @param boolean $parcking
+     *
+     * @return Annonce
+     */
+    public function setParcking($parcking)
+    {
+        $this->parcking = $parcking;
+
+        return $this;
+    }
+
+    /**
+     * Get parcking
+     *
+     * @return boolean
+     */
+    public function getParcking()
+    {
+        return $this->parcking;
+    }
+
+    /**
+     * Set chauffe
+     *
+     * @param boolean $chauffe
+     *
+     * @return Annonce
+     */
+    public function setChauffe($chauffe)
+    {
+        $this->chauffe = $chauffe;
+
+        return $this;
+    }
+
+    /**
+     * Get chauffe
+     *
+     * @return boolean
+     */
+    public function getChauffe()
+    {
+        return $this->chauffe;
+    }
+
+    /**
+     * Set publier
+     *
+     * @param boolean $publier
+     *
+     * @return Annonce
+     */
+    public function setPublier($publier)
+    {
+        $this->publier = $publier;
+
+        return $this;
+    }
+
+    /**
+     * Get publier
+     *
+     * @return boolean
+     */
+    public function getPublier()
+    {
+        return $this->publier;
+    }
+
+
+    /**
+     * Set user
+     *
+     * @param \OC\UserBundle\User $user
+     *
+     * @return Annonce
+     */
+    public function setUser(\OC\UserBundle\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \OC\UserBundle\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

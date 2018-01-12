@@ -12,7 +12,7 @@
     <ul class="nav navbar-nav">
         <li class="">
             <a href="{{ path("oc_platform_home") }}">
-                Acceuil
+                Accueil
             </a>
         </li>
         <li class="dropdown">
@@ -109,37 +109,34 @@
                     <!-- User account box end -->
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-12">
-                    <!-- My address start-->
-                    <div class="my-address">
-                        <div class="main-title-2">
-                            <h1><span>Advanced</span> Search</h1>
-                        </div>
-
-                        <form action="index.html" method="GET">
-                            <div class="form-group">
-                                <label>Your Name</label>
-                                <input type="text" class="input-text" name="your name" placeholder="John Antony">
-                            </div>
-                            <div class="form-group">
-                                <label>Your Title</label>
-                                <input type="text" class="input-text" name="agent" placeholder="Your title">
-                            </div>
-                            <div class="form-group">
-                                <label>Phone</label>
-                                <input type="text" class="input-text" name="phone" placeholder="+55 417-634-7071">
-                            </div>
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" class="input-text" name="email" placeholder="johndoe@gmail.com">
-                            </div>
-                            <div class="form-group">
-                                <label>About Me</label>
-                                <textarea class="input-text" name="message" placeholder="Etiam luctus malesuada quam eu aliquet. Donec eget mollis tortor. Donec pellentesque eros a nisl euismod, ut congue orci ultricies. Fusce aliquet metus non arcu varius ullamcorper a sit amet nunc. Donec in lacus neque. Vivamus ullamcorper sed ligula vitae "></textarea>
-                            </div>
-                            <a href="#" class="btn button-md button-theme">Save Changes</a>
-                        </form>
+                    <div class="main-title-2">
+                        <h1><span>My</span> Properties</h1>
                     </div>
-                    <!-- My address end -->
+                    <!-- table start -->
+                    <table class="manage-table responsive-table">
+                        <tbody>
+                        {% for advert in listAdverts %}
+                        <tr>
+                            <td class="title-container">
+                                <img src="{{ asset(advert.imagePrincipale) }}" alt="my-properties-1" class="img-responsive hidden-xs">
+                                <div class="title">
+                                    <h4><a href="{{ path('oc_platform_view', {'id': advert.id}) }}">{{ advert.titre }}</a></h4>
+                                    <span><i class="fa fa-map-marker"></i> {{ advert.addresse }}</span>
+                                    <span class="table-property-price">{{ advert.prix }} DH par mois</span>
+                                </div>
+                            </td>
+                            <td class="expire-date hidden-xs">{{advert.date|date('d/m/Y')}}</td>
+                            <td class="action">
+                                <a href="{{ path('oc_platform_edit',{'id':advert.id}) }}"><i class="fa fa-pencil"></i> Edit</a>
+                                <a href="#"><i class="fa  fa-eye-slash"></i> Hide</a>
+                                <a href="{{ path('oc_platform_delete',{'id':advert.id}) }}" class="delete"><i class="fa fa-remove"></i> Delete</a>
+                            </td>
+                        </tr>
+    {% endfor %}
+
+                        </tbody>
+                    </table>
+                    <!-- table end -->
                 </div>
             </div>
         </div>
