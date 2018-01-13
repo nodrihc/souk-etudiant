@@ -1,0 +1,144 @@
+{# src/OC/PlatformBundle/Resources/views/Advert/index.html.twig #}
+
+{% extends "OCPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+    Annonces Non publier - {{ parent() }}
+{% endblock %}
+
+
+
+
+
+
+
+{% block ocplatform_body %}
+
+    <!-- Properties section body start -->
+    <div class="properties-section property-big content-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Option bar start -->
+                    <div class="option-bar">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-2">
+                                <h4>
+                                <span class="heading-icon">
+                                    <i class="fa fa-th-list"></i>
+                                </span>
+                                    <span class="hidden-xs">Liste des propriétés</span>
+                                </h4>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-10 col-pad">
+                                <div class="sorting-options">
+                                    <select class="sorting">
+                                        <option>Trier par date(décroissant)</option>
+                                        <option>Trier par date(croissant)</option>
+                                        <option>Trier par prix(croissant)</option>
+                                        <option>Trier par date(décroissant)</option>
+                                    </select>
+                                    <a href="#" class="change-view-btn active-view-btn"><i class="fa fa-th-list"></i></a>
+                                    <a href="#" class="change-view-btn"><i class="fa fa-th-large"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Option bar end -->
+                    <div class="clearfix"></div>
+
+                    <!-- property start -->
+                    {% for advert in listAdvert %}
+
+                        <div class="property clearfix wow fadeInUp delay-03s">
+                            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 col-pad">
+                                <a href="{{ path('oc_platform_view_admin', {'id': advert.id}) }}" class="property-img height">
+                                    <div class="property-tag button alt featured">{{ advert.type }}</div>
+                                    <div class="property-tag button sale">à louer</div>
+                                    <div class="property-price">{{ advert.prix }} DH</div>
+                                    <img src="{{ asset(advert.imagePrincipale) }}" alt="properties-3" class="img-responsive">
+                                </a>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12 property-content ">
+                                <!-- title -->
+                                <h1 class="title">
+                                    <a href="{{ path('oc_platform_view_admin', {'id': advert.id}) }}">{{ advert.titre }}</a>
+                                </h1>
+                                <!-- Property address -->
+                                <h3 class="property-address">
+                                    <a href="{{ path('oc_platform_view_admin', {'id': advert.id}) }}">
+                                        <i class="fa fa-map-marker"></i>{{ advert.addresse }}
+                                    </a>
+                                </h3>
+                                <p> {{ advert.description }} </p>
+
+                                <!-- Facilities List -->
+                                <ul class="facilities-list clearfix">
+                                    {% if advert.meuble %}
+                                        <li>
+                                            <i class="flaticon-bed"></i>
+                                            <span>Meublé</span>
+                                        </li>
+                                    {% else %}
+                                    {% endif %}
+                                    <li>
+                                        <i class="flaticon-holidays"></i>
+                                        <span> {{ advert.nbrToilettes }} Toilettes</span>
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-bed"></i>
+                                        <span>{{ advert.nbrChambres }} Chambres</span>
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-apartment"></i>
+                                        <span>Au {{ advert.quelEtage }} Etage</span>
+                                    </li>
+                                    {% if advert.ascenceur %}
+                                        <li>
+                                            <i class="flaticon-shape"></i>
+                                            <span>ascenceur</span>
+                                        </li>
+                                    {% else %}
+                                    {% endif %}
+                                </ul>
+                                <!-- Property footer -->
+                                <div class="property-footer">
+                                    <span class="left"><i class="fa fa-calendar-o icon"></i> 5 days ago</span>
+                                    <span class="right">
+                                 <a href="#"><i class="fa fa-heart-o icon"></i></a>
+                                 <a href="#"><i class="fa fa-share-alt"></i></a>
+                            </span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <!-- property end -->
+
+                    <!-- Page navigation start -->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li>
+                                <a href="#" aria-label="Previous">
+                                    <span aria-hidden="true">Previous</span>
+                                </a>
+                            </li>
+                            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                                <a href="#" aria-label="Next">
+                                    <span aria-hidden="true">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- Page navigation end-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Properties section body end -->
+
+{% endblock %}

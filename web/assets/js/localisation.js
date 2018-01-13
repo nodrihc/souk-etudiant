@@ -1,10 +1,12 @@
 var carte;
 function init() {
 
-    carte = new OpenLayers.Map({div: 'myMap'});
+    carte = new OpenLayers.Map({div: 'map'});
 
 
-    baseLayer = new OpenLayers.Layer.OSM();
-    carte.addLayer(baseLayer);
+    var baseLayer = new OpenLayers.Layer.OSM();
+
+
+    carte.addLayers([baseLayer]);
     carte.zoomToMaxExtent();
 }

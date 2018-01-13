@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>{% block title %}OC Plateforme{% endblock %}</title>
+  <title>{% block title %}Logement-Etudiant{% endblock %}</title>
 
   {% block stylesheets %}
 
@@ -34,6 +34,15 @@
       <!-- Google fonts -->
       <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800%7CPlayfair+Display:400,700%7CRoboto:100,300,400,400i,500,700">
 
+      <script type="text/javascript" src="{{ asset('assets/js/OpenLayers.js') }}"></script>
+      <script type="text/javascript" src="{{ asset('assets/js/localisation.js') }}"></script>
+
+      {% block AdminCss %}
+
+
+      {% endblock %}
+
+
       <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
       <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/ie10-viewport-bug-workaround.css') }}">
 
@@ -50,7 +59,7 @@
   {% endblock %}
 </head>
 
-<body>
+<body onload="init()">
 
 {% block entete %}
     <div class="page_loader"></div>
@@ -87,6 +96,7 @@
       <script type="text/javascript" src="{{ asset('assets/js/jquery.filterizr.js') }}"></script>
       <script type="text/javascript" src="{{ asset('assets/js/maps.js') }}"></script>
       <script type="text/javascript" src="{{ asset('assets/js/app.js') }}"></script>
+
 
       <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
       <script type="text/javascript" src="{{ asset('assets/js/ie10-viewport-bug-workaround.js') }}"></script>

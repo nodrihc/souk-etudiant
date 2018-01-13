@@ -1,3 +1,28 @@
+
+oc_platform_view_admin:
+   path:    /adminAnnoncesView/{id}
+   defaults:
+      _controller: OCPlatformBundle:Advert:adminAnnoncesView
+   requirements:
+      id: \d+
+
+oc_platform_admin_annonces:
+   path:    /adminAnnonces
+   defaults:
+      _controller: OCPlatformBundle:Advert:adminAnnonces
+
+oc_platform_admin_user:
+   path:    /adminUser
+   defaults:
+      _controller: OCPlatformBundle:Advert:adminUser
+
+oc_platform_delete_user:
+   path:    /deleteUser/{id}
+   defaults:
+      _controller: OCPlatformBundle:Advert:adminDeleteUser
+   requirements:
+      id: \d+
+
 oc_platform_myproperties:
     path:    /myproperties
     defaults:

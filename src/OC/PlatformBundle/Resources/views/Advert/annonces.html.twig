@@ -3,7 +3,7 @@
 {% extends "OCPlatformBundle::layout.html.twig" %}
 
 {% block title %}
-    Accueil - {{ parent() }}
+    Annonces - {{ parent() }}
 {% endblock %}
 
 {% block sous_menu %}
@@ -122,11 +122,11 @@
                         <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12 property-content ">
                             <!-- title -->
                             <h1 class="title">
-                                <a href="properties-details.html">{{ advert.titre }}</a>
+                                <a href="{{ path('oc_platform_view', {'id': advert.id}) }}">{{ advert.titre }}</a>
                             </h1>
                             <!-- Property address -->
                             <h3 class="property-address">
-                                <a href="properties-details.html">
+                                <a href="{{ path('oc_platform_view', {'id': advert.id}) }}">
                                     <i class="fa fa-map-marker"></i>{{ advert.addresse }}
                                 </a>
                             </h3>

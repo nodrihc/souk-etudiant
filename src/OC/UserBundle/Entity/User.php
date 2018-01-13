@@ -14,7 +14,7 @@ use OC\PlatformBundle\Entity\Annonce;
 class User extends BaseUser
 {
     /**
-     * @var annonces
+     * @var Annonce
      *
      * @ORM\OneToMany(targetEntity="OC\PlatformBundle\Entity\Annonce", mappedBy="user", cascade={"persist"})
      *

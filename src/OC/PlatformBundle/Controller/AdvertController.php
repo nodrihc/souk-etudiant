@@ -377,9 +377,77 @@ class AdvertController extends Controller
 
             $advert->setImagePrincipale($image->getPath());
         }
-        return $this->render('OCPlatformBundle:Advert:annonces.html.twig', array('listAdvert' => $listAdverts));
+        return $this->render('OCPlatformBundle:Advert:admin.html.twig', array('listAdvert' => $listAdverts));
     }
 
+    public function adminAnnoncesAction()
+    {
+        // On récupère le repository
+        $em = $this->getDoctrine()
+            ->getManager();
+
+        $listAdverts = $em->getRepository('OCPlatformBundle:Annonce')->findBy(array("publier" => 0));
+        foreach ($listAdverts as $advert) {
+            $image = $em->getRepository('OCPlatformBundle:Images')->findOneBy(
+                array('annonce' => $advert)
+            );
+
+            $advert->setImagePrincipale($image->getPath());
+        }
+        return $this->render('OCPlatformBundle:Advert:adminAnnonces.html.twig', array('listAdvert' => $listAdverts));
+    }
+
+    public function adminUserAction()
+    {
+        // On récupère le repository
+        $em = $this->getDoctrine()
+            ->getManager();
+
+        $listUsers = $em->getRepository('OCUserBundle:User')->findAll();
+
+        return $this->render('OCPlatformBundle:Advert:adminUser.html.twig', array('listUsers' => $listUsers));
+    }
+
+    public function adminDeleteUserAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user= $em->getRepository('OCUserBundle:User')->findOneBy(array("id" => $id));
+        $em->remove($user);
+        $em->flush();
+
+        // On récupère le repository
+        $em = $this->getDoctrine()
+            ->getManager();
+
+        $listUsers = $em->getRepository('OCUserBundle:USer')->findAll();
+
+        return $this->redirectToRoute('oc_platform_admin_user');
+
+    }
+
+public function adminAnnoncesViewAction($id)
+{
+    // On récupère le repository
+    $em = $this->getDoctrine()
+        ->getManager();
+
+
+    // On récupère l'entité correspondante à l'id $id
+    $advert = $em->getRepository('OCPlatformBundle:Annonce')->find($id);
+
+    // $advert est donc une instance de OC\PlatformBundle\Entity\Advert
+    // ou null si l'id $id  n'existe pas, d'où ce if :
+    if (null === $advert) {
+        throw new NotFoundHttpException("L'annonce d'id " . $id . " n'existe pas.");
+    }
+
+    $listeImage = $em->getRepository('OCPlatformBundle:Images')->findBy(array('annonce' => $advert));
+    // Le render ne change pas, on passait avant un tableau, maintenant un objet
+    return $this->render('OCPlatformBundle:Advert:viewAdmin.html.twig', array(
+        'advert' => $advert,
+        'listeImages' => $listeImage
+    ));
+}
     public function activeAction($id)
     {
         // On récupère le repository
@@ -419,7 +487,7 @@ class AdvertController extends Controller
 
     public function editAction(Request $request, Annonce $advert)
     {
-        // J'ai raccourci cette partie, car c'est plus rapide à écrire !
+        // Recuperer depuis la base
         $form = $this->get('form.factory')->createBuilder(FormType::class, $advert)
             ->add('type', ChoiceType::class, array(
                 'choices' => array(
