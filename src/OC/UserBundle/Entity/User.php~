@@ -16,7 +16,7 @@ class User extends BaseUser
     /**
      * @var annonces
      *
-     * @ORM\OneToMany(targetEntity="PlatformBundle\Entity\Annonce", mappedBy="user", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="OC\PlatformBundle\Entity\Annonce", mappedBy="user", cascade={"persist"})
      *
      */
     private $annonces;
@@ -26,6 +26,7 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
 
     public function __construct()
     {

@@ -28,6 +28,12 @@ class Annonce
      **/
     private $user;
 
+    /**
+     * une annonce a une localisation.
+     * @ORM\OneToOne(targetEntity="OC\PlatformBundle\Entity\Localisation")
+     * @ORM\JoinColumn(name="localisation_id", referencedColumnName="id")
+     */
+    private $localisation;
 
     /**
      * @var int
@@ -52,12 +58,7 @@ class Annonce
      */
     private $description;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="addresse", type="string", length=255)
-     */
-    private $addresse;
+
 
     /**
      * @var int
@@ -155,26 +156,6 @@ class Annonce
      */
     private $status;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ville", type="string", length=255)
-     */
-    private $ville;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="region", type="string", length=255)
-     */
-    private $region;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="universite", type="string", length=255)
-     */
-    private $universite;
 
 
     /**
@@ -749,5 +730,29 @@ class Annonce
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set localisation
+     *
+     * @param \OC\PlatformBundle\Entity\Localisation $localisation
+     *
+     * @return Annonce
+     */
+    public function setLocalisation(\OC\PlatformBundle\Entity\Localisation $localisation = null)
+    {
+        $this->localisation = $localisation;
+
+        return $this;
+    }
+
+    /**
+     * Get localisation
+     *
+     * @return \OC\PlatformBundle\Entity\Localisation
+     */
+    public function getLocalisation()
+    {
+        return $this->localisation;
     }
 }
