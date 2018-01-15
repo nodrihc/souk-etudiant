@@ -288,7 +288,7 @@ class AdvertController extends Controller
         $em = $this->getDoctrine()
             ->getManager();
 
-        $listAdverts = $em->getRepository('OCPlatformBundle:Annonce')->findBy(array("type" => "Appartement"));
+        $listAdverts = $em->getRepository('OCPlatformBundle:Annonce')->findBy(array("type" => "Appartement",'publier' => 1));
         foreach ($listAdverts as $advert) {
             $image = $em->getRepository('OCPlatformBundle:Images')->findOneBy(
                 array('annonce' => $advert)
@@ -305,7 +305,7 @@ class AdvertController extends Controller
         $em = $this->getDoctrine()
             ->getManager();
 
-        $listAdverts = $em->getRepository('OCPlatformBundle:Annonce')->findBy(array("type" => "Chambre"));
+        $listAdverts = $em->getRepository('OCPlatformBundle:Annonce')->findBy(array("type" => "Chambre",'publier' => 1));
         foreach ($listAdverts as $advert) {
             $image = $em->getRepository('OCPlatformBundle:Images')->findOneBy(
                 array('annonce' => $advert)
@@ -322,7 +322,7 @@ class AdvertController extends Controller
         $em = $this->getDoctrine()
             ->getManager();
 
-        $listAdverts = $em->getRepository('OCPlatformBundle:Annonce')->findBy(array("type" => "Colocation"));
+        $listAdverts = $em->getRepository('OCPlatformBundle:Annonce')->findBy(array("type" => "Colocation",'publier' => 1));
         foreach ($listAdverts as $advert) {
             $image = $em->getRepository('OCPlatformBundle:Images')->findOneBy(
                 array('annonce' => $advert)
@@ -461,10 +461,6 @@ public function adminAnnoncesViewAction($id)
         return $this->redirectToRoute('oc_platform_admin');
     }
 
-    public function profileAction()
-    {
-        return $this->render('OCPlatformBundle:Advert:profile.html.twig');
-    }
 
     public function propertiesAction()
     {
@@ -652,6 +648,33 @@ public function adminAnnoncesViewAction($id)
         }
 
         return $this->render('OCPlatformBundle:Advert:myproperties.html.twig', array('listAdverts' => $listAdverts, 'user' => $this->getUser()));
+
+    }
+
+    public function deleteAdminAction(Annonce $advert)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $listImages = $em->getRepository('OCPlatformBundle:Images')->findBy(array("annonce" => $advert));
+        foreach ($listImages as $image) {
+            $em->remove($image);
+        }
+        $em->remove($advert);
+        $em->flush();
+
+        // On récupère le repository
+        $em = $this->getDoctrine()
+            ->getManager();
+
+        $listAdverts = $em->getRepository('OCPlatformBundle:Annonce')->findBy(array("user" => $this->getUser()));
+        foreach ($listAdverts as $advert) {
+            $image = $em->getRepository('OCPlatformBundle:Images')->findOneBy(
+                array('annonce' => $advert)
+            );
+
+            $advert->setImagePrincipale($image->getPath());
+        }
+
+        return $this->render('OCPlatformBundle:Advert:adminAnnonces.html.twig', array('listAdvert' => $listAdverts));
 
     }
 }

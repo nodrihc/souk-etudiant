@@ -1,4 +1,9 @@
-
+oc_platform_admin_delete:
+    path:    /adminDelete/{id}
+    defaults:
+        _controller: OCPlatformBundle:Advert:deleteAdmin
+    requirements:
+        id: \d+
 oc_platform_view_admin:
    path:    /adminAnnoncesView/{id}
    defaults:

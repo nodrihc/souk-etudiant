@@ -14,9 +14,9 @@ use OC\PlatformBundle\Entity\Annonce;
 class User extends BaseUser
 {
     /**
-     * @var annonces
+     * @var Annonce
      *
-     * @ORM\OneToMany(targetEntity="PlatformBundle\Entity\Annonce", mappedBy="user", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="OC\PlatformBundle\Entity\Annonce", mappedBy="user", cascade={"persist"})
      *
      */
     private $annonces;
@@ -26,6 +26,12 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *
+     */
+    protected $numero;
 
     public function __construct()
     {
